@@ -1,61 +1,37 @@
 <div class="header-wrapper">
     <mat-toolbar>
-        <img class="appLogo" src="/img/appLogo5.png" alt="Logo">
+      <img class="appLogo" src="/img/appLogo5.png" alt="Logo">
 
-        <div class="find-location-section">
-          <div class="seach-section" [class.focused]="sectionFocused">
-            <!-- <input type="text" [(ngModel)]="location" placeholder="Das Wetter in..." id="searchSectionInput" (keyup.enter)="onLocationSubmit()" (focus)="onInputFocus()" (blur)="onInputBlur()">
-            <button (click)="onLocationSubmit()" class="search-btn"><img src="img/search.png" alt="search" /></button>
-          
+      <div class="find-location-section">
+        <div class="search-section" [class.focused]="sectionFocused">
+          <input type="text" [(ngModel)]="location" placeholder="Das Wetter in..." id="searchSectionInput" (keyup.enter)="onLocationSubmit()" (keydown)="onKeyDown($event)" (focus)="onInputFocus()"(blur)="onInputBlur()">
+          <button (click)="onLocationSubmit()" class="search-btn">
+            <img src="img/search.png" alt="search" />
+          </button>
+
           <ul *ngIf="searchResults.length > 0" class="location-results">
-            <li *ngFor="let result of searchResults" (click)="selectLocation(result)">
-              {{ result.name }}{{ result.admin1 ? ', ' + result.admin1 : '' }}{{ result.country ? ', ' + result.country : '' }}
-            </li>
-          </ul> -->
-
-          <input
-      type="text"
-      [(ngModel)]="location"
-      placeholder="Das Wetter in..."
-      id="searchSectionInput"
-      (keyup.enter)="onLocationSubmit()"
-      (keydown)="onKeyDown($event)"
-      (focus)="onInputFocus()"
-      (blur)="onInputBlur()">
-
-      <button (click)="onLocationSubmit()" class="search-btn">
-      <img src="img/search.png" alt="search" />
-    </button>
-
-    <ul *ngIf="searchResults.length > 0" class="location-results">
-      <div class="location-results-scroll-wrapper">
-        <div role="button" class="arrow-up" *ngIf="showArrowUp" (click)="scrollList('up')"><img src="/img/arrow_up.svg" alt="Arrow up"></div>
-        <div role="button" class="arrow-down" *ngIf="showArrowDown" (click)="scrollList('down')"><img src="/img/arrow_down.svg" alt="Arrow down"></div>
+            <div class="location-results-scroll-wrapper">
+              <div role="button" class="arrow-up" *ngIf="showArrowUp" (click)="scrollList('up')"><img src="/img/arrow_up.svg" alt="Arrow up"></div>
+              <div role="button" class="arrow-down" *ngIf="showArrowDown" (click)="scrollList('down')"><img src="/img/arrow_down.svg" alt="Arrow down"></div>
         
-        <div class="location-results-list" #resultList (scroll)="onResultsScroll()">
-           <li #resultItem *ngFor="let result of searchResults; let i = index"
-            [class.highlighted]="i === highlightedIndex"
-            (click)="selectLocation(result)">
-            {{ result.name }}{{ result.admin1 ? ', ' + result.admin1 : '' }}{{ result.country ? ', ' + result.country : '' }}
-          </li>
-        </div>        
-      </div>      
-    </ul>
+              <div class="location-results-list" #resultList (scroll)="onResultsScroll()">
+                <li #resultItem *ngFor="let result of searchResults; let i = index"
+                  [class.highlighted]="i === highlightedIndex"
+                  (click)="selectLocation(result)">
+                  {{ result.name }}{{ result.admin1 ? ', ' + result.admin1 : '' }}{{ result.country ? ', ' + result.country : '' }}
+                </li>
+              </div>        
+            </div>      
+          </ul>
           
-          </div>
-
-          <p>oder</p>
-
-          <button (click)="onCurrentLocationClick()" class="current-location-btn"><img src="/img/location.png" alt=""> Mein Standort</button>
         </div>
 
-        
+        <p>oder</p>
 
-        <button class="my-locations">⭐ Meine Orte</button>
+        <button (click)="onCurrentLocationClick()" class="current-location-btn"><img src="/img/location.png" alt=""> Mein Standort</button>
+      </div>        
 
-  <!-- <button matIconButton class="example-icon" aria-label="Example icon-button with menu icon">
-  </button>
-  <span>My App</span> -->
+        <!-- <button class="my-locations">⭐ Meine Orte</button> -->
   
 </mat-toolbar>
 </div>

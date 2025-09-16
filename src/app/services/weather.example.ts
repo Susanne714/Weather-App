@@ -5,5 +5,5 @@ import { Injectable } from '@angular/core';
 })
 export class Weather {
     // This file is a placeholder.
-    // The real implementation is local an not part of the repository.
+    // The real implementation is local and not part of the repository.
 }

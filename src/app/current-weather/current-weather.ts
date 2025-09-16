@@ -14,14 +14,17 @@ import { ThunderstormScene } from '../weather-visuals/scenes/thunderstorm-scene/
 import { HourlyForecast } from '../models/hourly-forecast.interface';
 import { WeatherIcon } from '../weather-icon/weather-icon';
 
+import { LocationResult } from '../services/weather';
+
 @Component({
   selector: 'app-current-weather',
   imports: [CommonModule, DatePipe, SunnyScene, CloudyScene, HeavilyCloudyScene, RainyScene, SnowyScene, FoggyScene, ThunderstormScene, WeatherIcon],
   templateUrl: './current-weather.html',
   styleUrl: './current-weather.scss'
 })
-export class CurrentWeather implements OnInit, OnChanges {
-  @Input() location: string = '';
+export class CurrentWeather implements OnInit {
+  // @Input() location: string = '';
+  @Input() location: LocationResult | null = null; //locationtest
   @Output() locationNameChange = new EventEmitter<string>();
   @ViewChild('forecastContainer') forecastContainer!: ElementRef;
 
@@ -40,10 +43,14 @@ export class CurrentWeather implements OnInit, OnChanges {
   sunrise!: string;
   sunset!: string
 
-  // default location (Düsseldorf)
+  // default location for development & testing (Düsseldorf)
   private readonly initialLat = 51.316601;
   private readonly initialLon = 6.749072;
   private readonly initialName = 'Düsseldorf';
+
+  // private readonly initialLat = 52.383521;
+  // private readonly initialLon = 4.530153;
+  // private readonly initialName = 'Zandvoort';
 
   constructor(private weatherService: Weather) { }
 
@@ -51,28 +58,28 @@ export class CurrentWeather implements OnInit, OnChanges {
     this.loadWeather(this.initialLat, this.initialLon, this.initialName);
   }
 
-  ngOnChanges(changes: SimpleChanges) {
-    if (changes['location']?.currentValue) {
-      this.loadWeatherByLocation(this.location);
-    }
-  }
+  // ngOnChanges(changes: SimpleChanges) {
+  //   if (changes['location']?.currentValue) {
+  //     this.loadWeatherByLocation(this.location);
+  //   }
+  // }
 
   /** Holt Koordinaten anhand eines Namens und lädt dann Wetterdaten */
-  public loadWeatherByLocation(location: string) {
-    this.weatherService.getCoordinates(location).subscribe({
-      next: (coords: { lat: number; lon: number; name?: string }) => {
-        if (coords.lat && coords.lon) {
-          const realName = coords.name || location;
-          this.loadWeather(coords.lat, coords.lon, realName);
-        } else {
-          this.handleUnknownLocation();
-        }
-      },
-      error: () => this.handleUnknownLocation()
-    });
-  }
+  // public loadWeatherByLocation(location: string) {
+  //   this.weatherService.getCoordinates(location).subscribe({
+  //     next: (coords: { lat: number; lon: number; name?: string }) => {
+  //       if (coords.lat && coords.lon) {
+  //         const realName = coords.name || location;
+  //         this.loadWeather(coords.lat, coords.lon, realName);
+  //       } else {
+  //         this.handleUnknownLocation();
+  //       }
+  //     },
+  //     error: () => this.handleUnknownLocation()
+  //   });
+  // }
 
-  private loadWeather(lat: number, lon: number, realName: string) {
+  public loadWeather(lat: number, lon: number, realName: string) {
     this.weatherService.getWeather(lat, lon).subscribe({
       next: (data) => {
         this.setCurrentWeather(data, realName);

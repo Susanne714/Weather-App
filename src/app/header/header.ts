@@ -13,7 +13,8 @@ import { LocationResult } from '../services/weather';
   styleUrl: './header.scss'
 })
 export class Header {
-  @Output() locationChange = new EventEmitter<string>();
+  // @Output() locationChange = new EventEmitter<string>();
+  @Output() locationChange = new EventEmitter<LocationResult>; //locationtest
   @Output() currentLocationRequested = new EventEmitter<void>();
   @ViewChildren('resultItem') resultItems!: QueryList<ElementRef<HTMLLIElement>>;
   @ViewChild('resultList', { static: false }) resultList!: ElementRef<HTMLDivElement>;
@@ -53,7 +54,8 @@ export class Header {
 
   selectLocation(result: LocationResult) {
     console.log("✅ Gewählter Ort:", result); // 👉 alles sehen: name, lat, lon, country, admin1
-    this.locationChange.emit(result.name);
+    // this.locationChange.emit(result.name);
+    this.locationChange.emit(result); //locationtest
     this.searchResults = [];
     this.location = '';
   }

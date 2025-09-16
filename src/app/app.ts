@@ -3,6 +3,8 @@ import { RouterOutlet } from '@angular/router';
 import { Header } from './header/header';
 import { WeatherDashboard } from './weather-dashboard/weather-dashboard';
 
+import { LocationResult } from './services/weather'; //locationtest
+
 @Component({
   selector: 'app-root',
   imports: [RouterOutlet, Header, WeatherDashboard],
@@ -14,12 +16,16 @@ export class App {
 
   protected readonly title = signal('WeatherApp');
 
-  selectedLocation: string = 'Düsseldorf';
-  // Für Anzeige des realen Ortsnamens im Header oder irgendwo anders
-  displayedLocationName: string = 'Düsseldorf';
+  // selectedLocation: string = 'Düsseldorf';
+  // displayedLocationName: string = 'Düsseldorf';
+
+  // selectedLocation: string = '';
+  selectedLocation: LocationResult | null = null; //locationtest
+  displayedLocationName: string = '';
 
   // vom Header gesendeter Ort (Input-Feld)
-  onLocationSelected(location: string) {
+  // onLocationSelected(location: string) {
+  onLocationSelected(location: LocationResult) { //locationtest
     this.selectedLocation = location;
     console.log("eingegebener Ort:", this.selectedLocation)
   }

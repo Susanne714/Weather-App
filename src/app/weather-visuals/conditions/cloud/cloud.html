@@ -1,0 +1,35 @@
+
+@if (mode === 'light') {
+  <div class="cloud" [ngClass]="variant"></div>
+}
+
+@if (mode === 'heavy') {
+  <div class="clouds-track">
+    <div class="cloud-wrapper">
+      <div
+        class="heavy-cloud1"
+        *ngFor="let cloud of clouds"
+        [style.top.%]="cloud.top"
+        [style.left.%]="cloud.left"
+        [style.transform]="'scale(' + cloud.scale + ')'"
+      >
+        <div class="cloudBaseShadow">
+          <div></div>
+        </div>
+      </div>
+    </div>
+    <div class="cloud-wrapper">
+      <div
+        class="heavy-cloud1"
+        *ngFor="let cloud of clouds"
+        [style.top.%]="cloud.top"
+        [style.left.%]="cloud.left"
+        [style.transform]="'scale(' + cloud.scale + ')'"
+      >
+        <div class="cloudBaseShadow">
+          <div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+}

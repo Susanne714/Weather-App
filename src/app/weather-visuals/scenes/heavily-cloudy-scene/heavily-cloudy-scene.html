@@ -1,0 +1,7 @@
+<div class="heavily-cloudy-bg" [ngClass]="{'night-bg': isNight}">
+    <app-night-scene *ngIf="isNight"></app-night-scene>
+    <app-cloud mode="heavy"></app-cloud>
+    <app-cloud mode="light" variant="type5"></app-cloud>
+    <app-cloud mode="light" variant="type6"></app-cloud>
+</div>
+

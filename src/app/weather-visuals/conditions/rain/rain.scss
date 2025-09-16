@@ -1,0 +1,25 @@
+.raindrop {
+    position: absolute;
+    top: -20px;
+    border: 0.25vmin solid transparent;
+    border-bottom-color: #abc2e9;
+    animation: fall linear infinite;
+    border-left-width: 12px;
+    --rot: 90deg;
+}
+
+@keyframes fall {
+    0% {
+        transform: rotate(var(--rot)) translateX(0);
+        opacity: 1;
+    }
+
+    90% {
+        opacity: 0;
+    }
+
+    100% {
+        transform: rotate(var(--rot)) translateX(110vh);
+        opacity: 0;
+    }
+}

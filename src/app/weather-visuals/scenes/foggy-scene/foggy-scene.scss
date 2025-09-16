@@ -1,0 +1,146 @@
+.foggy-bg {
+    height: 100%;
+    background: linear-gradient(180deg, rgb(125 125 125) 0%, rgb(158 160 161) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+}
+
+.night-bg {
+    background: radial-gradient(ellipse at bottom, #263649 0%, #131521 100%);
+}
+
+// .fog {
+//     position: absolute;
+//     top: 3%;
+//     left: -30vw;
+//     width: 400px;
+//     height: 200px;
+//     background: radial-gradient(circle, rgba(255, 255, 255, 0.3) 20%, transparent 70%);
+//     border-radius: 50%;
+//     animation: moveFog 60s linear infinite;
+//     filter: blur(40px);
+//     z-index: 1;
+
+//     &::before,
+//     &::after {
+//         content: '';
+//         position: absolute;
+//         background: radial-gradient(circle, rgba(255, 255, 255, 0.3) 20%, transparent 70%);
+//         width: 200px;
+//         height: 80px;
+//         position: absolute;
+//         top: 30%;
+//         left: -60px;
+//         border-radius: 100px;
+//         transform: rotate(160deg);
+//         z-index: 2;
+//     }
+
+//     &::after {
+//         width: 100px;
+//         height: 100px;
+//         top: 0px;
+//         left: 300px;
+//         right: 10px;
+//     }
+// }
+
+// .fog:nth-child(2) {
+//     top: 40%;
+//     animation-duration: 100s;
+//     animation-delay: 10s;
+// }
+
+// .fog:nth-child(3) {
+//     top: 70%;
+//     animation-duration: 60s;
+//     animation-delay: 20s;
+// }
+
+// @keyframes moveFog {
+//     0% {
+//         transform: translateX(0);
+//     }
+
+//     100% {
+//         transform: translateX(120vw);
+//         /* Nebel zieht über den ganzen Bildschirm */
+//     }
+// }
+
+.fog {
+    position: absolute;
+    width: 100%;
+    height: 50%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.3) 20%, transparent 70%);
+    border-radius: 50%;
+    filter: blur(40px);
+
+    >div {
+        position: absolute;
+        border-radius: 50%;
+        background: radial-gradient(circle, rgba(255, 255, 255, 0.3) 20%, transparent 70%);
+        animation: fogPulse 5s ease-in-out infinite;
+    }
+}
+
+.form1 {
+    height: 100px;
+    width: 200px;
+    left: 44%;
+    top: -30%;
+    animation-delay: 0s;
+}
+
+.form2 {
+    height: 120px;
+    width: 240px;
+    left: 55%;
+    top: -45%;
+    animation-delay: 5s;
+}
+
+.form3 {
+    height: 300px;
+    width: 400px;
+    left: -14%;
+    top: -40%;
+    animation-delay: 10s;
+}
+
+.form4 {
+    height: 200px;
+    width: 300px;
+    left: 10%;
+    top: 70%;
+    animation-delay: 3s;
+}
+
+.form5 {
+    height: 80px;
+    width: 500px;
+    left: 60%;
+    top: 98%;
+    animation-delay: 7s;
+}
+
+@keyframes fogPulse {
+
+    0%,
+    100% {
+        transform: scale(1) translate(0, 0);
+        opacity: 0.8;
+    }
+
+    50% {
+        transform: scale(1.05) translate(8px, -6px);
+        opacity: 0.9;
+    }
+}

@@ -1,0 +1,348 @@
+.dashboard-wrapper {
+    padding-top: 16px;
+    display: flex;
+    justify-content: center;
+
+    >.mat-mdc-tab-group {
+        width: 90%;
+    }
+}
+
+::ng-deep .mat-mdc-tab-group {
+    border: 3px solid #ffc600;
+    border-radius: 28px;
+    overflow: hidden;
+}
+
+::ng-deep .mat-mdc-tab.mdc-tab {
+    background-color: #eddb98;
+}
+
+::ng-deep .mat-mdc-tab.mdc-tab--active {
+    background-color: #ffc600;
+}
+
+// .weather-bg {
+//     position: relative;
+//     min-height: 67vh;
+//     overflow: hidden;
+//     color: black;
+
+//     &.night-mode {
+//         // color: #c9c8c8;
+//         color: #ffb019
+//     }
+
+//     >.current-condition {
+//         display: flex;
+//         justify-content: center;
+//         flex-direction: column;
+//         position: absolute;
+//         top: 40px;
+//         left: 80px;
+//         min-width: 200px;
+//         // color: black;
+//         padding: 28px 40px;
+//         border-radius: 25px;
+//         background: rgba(255, 255, 255, 0.07);
+//         // background: radial-gradient(ellipse at bottom, #263649a8 0%, #131521 100%);
+//         border-radius: 16px;
+//         box-shadow: -9px 6px 10px rgba(0, 0, 0, 0.243);
+//         backdrop-filter: blur(2.9px);
+//         -webkit-backdrop-filter: blur(2.9px);
+//         border: 1px solid rgba(255, 255, 255, 0.09);
+//         z-index: 2;
+
+//         >h1 {
+//             font-size: 64px;
+//             line-height: 66px;
+//             margin: 24px 0 24px 0;
+//         }
+
+//         >h2 {
+//             font-size: 32px;
+//             margin: 14px 0 24px 0;
+//         }
+
+//         >span {
+//             font-size: 20px;
+//             // font-weight: bolder;
+//             margin: 6px 0px 4px 0px;
+//             display: flex;
+//             align-items: center;
+//             gap: 6px;
+//         }
+
+//         >p {
+//             font-size: 16px;
+//             margin: 0;
+//         }
+//     }
+
+//     .windsurf-info-box {
+//         display: flex;
+//         align-items: center;
+//         flex-direction: column;
+//         margin-top: 28px;
+//     }
+
+//     .surfer {
+//         height: 44px;
+//     }
+
+//     .windsurf-info {
+//         opacity: 0;
+//     }
+
+//     .windsurf-info-box:hover .windsurf-info {
+//         opacity: 1;
+//     }
+
+//     >.dashboard-date {
+//         display: flex;
+//         align-items: center;
+//         flex-direction: column;
+//         position: absolute;
+//         font-weight: 500;
+//         top: 4px;
+//         right: 20px;
+//         z-index: 1;
+//     }
+// }
+
+// .warning-indicator {
+//     height: 36px;
+//     animation: pulse 1s infinite alternate ease-in-out;
+// }
+
+// @keyframes pulse {
+//     0% {
+//         transform: scale(1);
+//     }
+
+//     100% {
+//         transform: scale(1.2);
+//     }
+// }
+
+// .warning-indicator-small {
+//     height: 16px;
+// }
+
+// .indicator-current-waves {
+//     height: 32px;
+
+//     &.night-mode {
+//         filter: brightness(3) invert(0.1);
+//     }
+// }
+
+// .sun-rise-and-set {
+//     display: flex;
+//     align-items: center;
+//     gap: 8px;
+//     margin-bottom: 12px;
+
+//     >p {
+//         margin: 0;
+//     }
+// }
+
+// .sun-rise-an-set-indicator {
+//     background-image: url(/img/sun_icon.png);
+//     height: 24px;
+//     width: 24px;
+
+//     &.night-mode {
+//         background-image: url(/img/sun_icon_darkmode.png);
+//     }
+// }
+
+// .sun-icon {
+//     height: 20px;
+// }
+
+// .icon-test {
+//     z-index: 1;
+//     display: flex;
+//     justify-content: center;
+//     position: absolute;
+//     left: 50%;
+//     bottom: 10%;
+//     width: 80px;
+//     height: 60px;
+// }
+
+// .forecast-24h {
+//     position: absolute;
+//     bottom: 0;
+//     left: 0;
+//     width: 100%;
+//     z-index: 1;
+// }
+
+// .forecast-scroll-wrapper {
+//     position: relative;
+// }
+
+// .forecast-container {
+//     position: relative;
+//     display: flex;
+//     align-items: center;
+//     gap: 8px;
+//     overflow-x: auto;
+//     padding: 8px 0;
+//     scrollbar-width: none;
+// }
+
+// .forecast-scroll-wrapper:hover .arrow-left,
+// .forecast-scroll-wrapper:hover .arrow-right {
+//     opacity: 1;
+//     pointer-events: auto;
+// }
+
+// .arrow-left,
+// .arrow-right {
+//     position: absolute;
+//     top: 50%;
+//     transform: translateY(-50%);
+//     height: 56px;
+//     width: 36px;
+//     display: flex;
+//     align-items: center;
+//     justify-content: center;
+//     background: #0000002e;
+//     filter: brightness(1px);
+//     pointer-events: auto;
+//     z-index: 2;
+//     opacity: 0; // unsichtbar standardmäßig
+//     pointer-events: none; // Nicht klickbar solange unsichtbar
+//     transition: opacity 0.25s ease, transform 0.15s ease;
+
+//     &:hover {
+//         background: #ffc800ac;
+//     }
+// }
+
+// .arrow-right {
+//     right: 0;
+//     border-top-left-radius: 12px;
+//     border-bottom-left-radius: 12px;
+// }
+
+// .arrow-left {
+//     left: 0;
+//     border-top-right-radius: 12px;
+//     border-bottom-right-radius: 12px;
+// }
+
+// .forecast-hour {
+//     min-width: 112px;
+//     flex: 0 0 auto;
+//     text-align: center;
+//     border-radius: 8px;
+//     background: rgba(255, 255, 255, 0.1);
+//     padding: 10px 8px 10px 8px;
+//     display: flex;
+//     align-items: center;
+//     flex-direction: column;
+//     cursor: pointer;
+// }
+
+// .fc-show-temp {
+//     font-size: 16px;
+//     font-weight: bolder;
+// }
+
+// .wind-infobox {
+//     display: flex;
+//     flex-direction: column;
+//     align-items: flex-start;
+//     margin-bottom: 4px;
+//     gap: 8px;
+// }
+
+// .wind-infobox-item {
+//     display: flex;
+//     align-items: center;
+//     gap: 4px;
+// }
+
+// .more-details-arrow {
+//     position: relative;
+// }
+
+// .arrow-down {
+//     filter: brightness(0) invert(1);
+//     transform: rotate(35deg);
+//     position: absolute;
+//     top: -12px;
+//     right: -64px;
+//     transition: all 0.2s ease-in-out;
+
+//     &.open {
+//         transform: rotate(90deg);
+//     }
+// }
+
+// .wind-icon {
+//     --sock-red: grey;
+//     --sock-white: #fff;
+//     --metal: #475569;
+//     --stroke: #0b132b;
+// }
+
+// .gust-icon {
+//     --sock-red: red;
+//     --sock-white: #fff;
+//     --metal: #475569;
+//     --stroke: #0b132b;
+// }
+
+// .forecast-detail-1h {
+//     display: flex;
+//     justify-content: space-between;
+//     height: 0;
+//     width: 100%;
+//     background: rgba(255, 255, 255, 0.1);
+//     transition: all 0.2s ease-in-out;
+//     opacity: 0;
+
+//     &.visible {
+//         opacity: 1;
+//         height: 60px;
+//     }
+
+// }
+
+// .forecast-detail-section {
+//     display: flex;
+//     flex-direction: column;
+//     justify-content: center;
+//     padding: 0 20px 0 20px;
+//     gap: 8px;
+// }
+
+// .forecast-detail-item {
+//     margin: 0;
+//     display: flex;
+//     align-items: center;
+//     gap: 6px;
+// }
+
+// .winddirection-mark-large {
+//     height: 30px;
+//     // filter: brightness(3) invert(0.1); //Nachtmodus!
+
+//     &.night-mode {
+//         filter: brightness(3) invert(0.1);
+//     }
+// }
+
+// .winddirection-mark {
+//     transition: transform 0.2s ease;
+
+//     &.night-mode {
+//         filter: brightness(3) invert(0.1);
+//     }
+// }

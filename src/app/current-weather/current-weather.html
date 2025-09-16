@@ -1,0 +1,115 @@
+<div class="weather-bg" [ngClass]="{'night-mode': !isDay}">
+
+      <div class="current-condition">
+        <h2>{{ locationName }}</h2>
+        <p>aktuell {{ getWeatherDescription(weatherData?.weathercode) }}</p>
+        <h1>{{ weatherData?.temperature | number: '1.0-0' }}°C</h1>
+        <span><img class="winddirection-mark-large indicator-current" src="/img/navigation_full_blue3.svg" alt="wind direction mark" [style.transform]="'rotate(' + weatherData?.winddirection + 'deg)'" title="Windgeschwindigkeit" [ngClass]="{'night-mode': !isDay}"> {{ weatherData?.windspeed | number: '1.0-0' }} km/h aus {{ weatherData?.windDirectionLabel }}</span>
+        <span><img class="indicator-current-waves" src="/img/water.svg" alt="Water" title="Wellenhöhe" [ngClass]="{'night-mode': !isDay}"> {{ weatherData?.waveHeight != null ? (weatherData.waveHeight | number:'1.1-1') + ' m' : '---'  }}</span>
+      </div>
+
+      <ng-template #loading>
+        <div class="current-condition">
+          <h2>{{ locationName }}</h2>
+          <p>Lade Wetterdaten...</p>
+        </div>
+      </ng-template>
+
+      <div class="dashboard-date">
+        <p>{{ currentDate | date: 'dd.MM.yyyy' }}</p>
+        <!-- <p>{{ currentDate | date: 'HH:mm' }}</p> -->
+        <div class="sun-rise-and-set">
+          <div class="sun-rise-an-set-indicator" [ngClass]="{'night-mode': !isDay}"></div>
+          <p>⭡ {{ sunrise | date:'HH:mm'}}</p>
+          <p>⭣ {{ sunset | date:'HH:mm'}}</p>
+        </div>
+        <div class="windsurf-info-box" *ngIf="weatherData?.windspeed >12 && weatherData?.windspeed<50">
+          <img  class="surfer" src="/img/surfer_orange.png" alt="Icon Windsurfer" title="Windsurfing möglich">
+          <!-- <p class="windsurf-info">Windsurf-Tipp</p> -->
+        </div>
+        <!-- <img *ngIf="weatherData?.windspeed >12 && weatherData?.windspeed<50" class="surfer" src="/img/surfer_orange.png" alt="Icon Windsurfer" title="Windsurfing möglich"> -->
+        <img *ngIf=" weatherData?.windspeed >= 75" class="warning-indicator" src="/img/warning2.png" alt="Warning">
+      </div>
+
+      <ng-container *ngIf="getSceneName(weatherData?.weathercode) === 'sunny'">
+        <app-sunny-scene [isNight]="!isDay"></app-sunny-scene>
+      </ng-container>
+
+      <ng-container *ngIf="getSceneName(weatherData?.weathercode) === 'cloudy'">
+        <app-cloudy-scene [isNight]="!isDay"></app-cloudy-scene>
+      </ng-container>
+
+      <ng-container *ngIf="getSceneName(weatherData?.weathercode) === 'cloudier'">
+        <app-heavily-cloudy-scene [isNight]="!isDay"></app-heavily-cloudy-scene>
+      </ng-container>
+
+      <ng-container *ngIf="getSceneName(weatherData?.weathercode) === 'rainy'">
+        <app-rainy-scene [isNight]="!isDay"></app-rainy-scene>
+      </ng-container>
+
+      <ng-container *ngIf="getSceneName(weatherData?.weathercode) === 'snowy'">
+        <app-snowy-scene [isNight]="!isDay"></app-snowy-scene>
+      </ng-container>
+
+      <ng-container *ngIf="getSceneName(weatherData?.weathercode) === 'foggy'">
+        <app-foggy-scene [isNight]="!isDay"></app-foggy-scene>
+      </ng-container>
+
+      <ng-container *ngIf="getSceneName(weatherData?.weathercode) === 'thunderstorm'">
+        <app-thunderstorm-scene [weatherCode]="weatherCode" [isNight]="!isDay"></app-thunderstorm-scene>
+      </ng-container>
+
+      <section class="forecast-24h">
+        <div class="forecast-scroll-wrapper">
+          <div role="button" class="arrow-left" *ngIf="showArrowLeft" (click)="scrollForecast('left')"><img src="/img/arrow_left.png" alt="Arrow left"></div>
+          <div role="button" class="arrow-right" *ngIf="showArrowRight" (click)="scrollForecast('right')"><img src="/img/arrow_right.png" alt="Arrow right"></div>
+
+          <div #forecastContainer class="forecast-container">      
+            <div class="forecast-hour" *ngFor="let hour of forecast24h" (click)="selectHour(hour)">
+              <div>{{ hour.time | date: 'HH:mm'}}</div>
+              <div class="fc-show-temp">{{ hour.temperature | number: '1.0-0'}}°C</div>
+              <app-weather-icon [code]="hour.weathercode" [isDaytime]="hour.isDaytime"></app-weather-icon> 
+
+              <div class="wind-infobox">
+                <div class="wind-infobox-item">
+                  <img class="winddirection-mark" src="/img/navigation_full_blue3.svg" alt="wind direction mark" [style.transform]="'rotate(' + hour.windDirection + 'deg)'" title="Windgeschwindigkeit" [ngClass]="{'night-mode': !isDay}">
+                  {{ hour.windspeed | number: '1.0-0'}} km/h ({{ hour?.windDirectionLabel}})
+                </div>
+          
+                <div class="wind-infobox-item">
+                  <svg class="gust-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"width="24" height="24" role="img" aria-labelledby="title"><title id="title">Böen</title><!-- === Themeable CSS Vars (optional) === --><style>:root {--sock-red: #e53935;--sock-white: #ffffff;--metal: #334155;/* Mast */--stroke: #0f172a;/* Kontur */}</style><!-- Mast --><rect x="20" y="14" width="3.5" height="32" rx="1.5" fill="var(--metal)"/><!-- Ausleger --><rect x="20" y="14" width="10" height="2.8" rx="1.4" fill="var(--metal)"/><!-- Windsack-Form als Clip --><defs><clipPath id="sock-clip"><!-- Öffnung nahe am Mast (höher), Spitze nach rechts (schmaler) --><path d="M 28 10 C 36 11, 44 12, 56 15 L 56 25 C 44 22, 36 21, 28 22 Z" /></clipPath></defs><!-- Streifen (werden in die Windsack-Form geclippt) --><g clip-path="url(#sock-clip)">
+                  <!-- Hintergrund weiß, falls Lücken --><rect x="26" y="9" width="34" height="18" fill="var(--sock-white)"/><!-- Vertikale Streifen --><rect x="26" y="9" width="4"  height="18" fill="var(--sock-red)"/><rect x="34" y="9" width="4"  height="18" fill="var(--sock-red)"/><rect x="42" y="9" width="4"  height="18" fill="var(--sock-red)"/><rect x="50" y="9" width="4"  height="18" fill="var(--sock-red)"/><rect x="58" y="9" width="4"  height="18" fill="var(--sock-red)"/></g><!-- Kontur für klare Kanten --><path d="M 28 10 C 36 11, 44 12, 56 15 L 56 25 C 44 22, 36 21, 28 22 Z" fill="none" stroke="var(--stroke)" stroke-width="1.2" stroke-linejoin="round"/></svg>
+                  bis {{ hour.windgusts | number: '1.0-0'}} km/h
+                </div>
+              </div>
+              <div class="more-details-arrow"><img class="arrow-down" [class.open]="selectedHour===hour" src="/img/arrow_more.png" alt="open Details"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="forecast-detail-1h" [class.visible]="selectedHour">
+          <div class="forecast-detail-section">
+            <p *ngIf="selectedHour" class="forecast-detail-item">
+              <img class="winddirection-mark" src="/img/navigation_full_blue3.svg" alt="wind direction mark" [style.transform]="'rotate(' + selectedHour.windDirection + 'deg)'" [ngClass]="{'night-mode': !isDay}"> 
+              {{ selectedHour.windDescription}} aus {{ selectedHour.windDirectionLabel}} 
+              ({{ selectedHour.windspeed | number: '1.0-0'}} km/h) 
+              <img *ngIf="selectedHour.windspeed >= 75" class="warning-indicator-small" src="/img/warning2.png" alt="Warning">
+            </p>
+
+            <p class="forecast-detail-item">
+              <svg class="gust-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"width="24" height="24" role="img" aria-labelledby="title"><title id="title">Böen</title><!-- === Themeable CSS Vars (optional) === --><style>:root {--sock-red: #e53935;--sock-white: #ffffff;--metal: #334155;/* Mast */--stroke: #0f172a;/* Kontur */}</style><!-- Mast --><rect x="20" y="14" width="3.5" height="32" rx="1.5" fill="var(--metal)"/><!-- Ausleger --><rect x="20" y="14" width="10" height="2.8" rx="1.4" fill="var(--metal)"/><!-- Windsack-Form als Clip --><defs><clipPath id="sock-clip"><!-- Öffnung nahe am Mast (höher), Spitze nach rechts (schmaler) --><path d="M 28 10 C 36 11, 44 12, 56 15 L 56 25 C 44 22, 36 21, 28 22 Z" /></clipPath></defs><!-- Streifen (werden in die Windsack-Form geclippt) --><g clip-path="url(#sock-clip)">
+              <!-- Hintergrund weiß, falls Lücken --><rect x="26" y="9" width="34" height="18" fill="var(--sock-white)"/><!-- Vertikale Streifen --><rect x="26" y="9" width="4"  height="18" fill="var(--sock-red)"/><rect x="34" y="9" width="4"  height="18" fill="var(--sock-red)"/><rect x="42" y="9" width="4"  height="18" fill="var(--sock-red)"/><rect x="50" y="9" width="4"  height="18" fill="var(--sock-red)"/><rect x="58" y="9" width="4"  height="18" fill="var(--sock-red)"/></g><!-- Kontur für klare Kanten --><path d="M 28 10 C 36 11, 44 12, 56 15 L 56 25 C 44 22, 36 21, 28 22 Z" fill="none" stroke="var(--stroke)" stroke-width="1.2" stroke-linejoin="round"/></svg>
+              Böen bis {{selectedHour?.windgusts | number: '1.0-0'}} km/h</p>
+          </div>
+          <div class="forecast-detail-section">
+            <p class="forecast-detail-item">gefühlte Temperatur: {{selectedHour?.apparentTemperature | number: '1.0-0'}}°C</p>
+            <p class="forecast-detail-item">Luftdruck: {{ selectedHour?.surfacePressure | number: '1.0-0'}} hPa</p>
+          </div>
+          <div class="forecast-detail-section">
+            <p class="forecast-detail-item">Rel. Feuchte: {{ selectedHour?.relativeHumidity}}%</p>
+            <p *ngIf="selectedHour" class="forecast-detail-item">Wellenhöhe: {{ selectedHour.waveHeight != null ? (selectedHour.waveHeight | number:'1.1-1') + ' m' : '---' }}</p>
+          </div>  
+        </div>
+      </section>
+        
+      </div>

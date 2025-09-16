@@ -1,0 +1,8 @@
+<div class="cloudy-bg" [ngClass]="{'night-bg': isNight}">
+    <app-night-scene *ngIf="isNight"></app-night-scene>
+    <div class="sun"></div>
+    <app-cloud mode="light" variant="type1"></app-cloud>
+    <app-cloud mode="light" variant="type2"></app-cloud>
+    <app-cloud mode="light" variant="type3"></app-cloud>
+    <app-cloud mode="light" variant="type4"></app-cloud>   
+</div>

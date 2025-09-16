@@ -1,0 +1,55 @@
+.cloudy-bg {
+    // height: 100%;
+    // width: 100%;
+    // background: linear-gradient(44deg, rgb(111 138 219) 0%, rgb(123 194 227) 100%);
+    // display: flex;
+    // position: absolute;
+    // top: 0;
+    // left: 0;
+    // width: 100%;
+    // height: 100%;
+    // z-index: 0;
+
+    height: 100%;
+    background: linear-gradient(44deg, rgb(111 138 219) 0%, rgb(123 194 227) 100%);
+    display: flex;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+
+    >.sun {
+        border-radius: 50%;
+        width: 100px;
+        height: 100px;
+        background-color: orange;
+        box-shadow: 0 0 80px 6px yellow, 0 0 44px 10px yellow inset;
+        position: absolute;
+        top: 60px;
+        right: 100px;
+    }
+}
+
+.night-bg {
+    background: radial-gradient(ellipse at bottom, #263649 0%, #131521 100%);
+}
+
+.cloudy-bg.night-bg>.sun {
+    display: none;
+}
+
+.test {
+    animation: moveTest 4s linear infinite;
+}
+
+@keyframes moveTest {
+    0% {
+        transform: translateX(0vw);
+    }
+
+    100% {
+        transform: translateX(100vw);
+    }
+}

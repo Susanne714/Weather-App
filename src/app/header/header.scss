@@ -1,0 +1,214 @@
+.header-wrapper {
+    display: flex;
+    justify-content: center;
+
+    >.mat-toolbar-row,
+    .mat-toolbar-single-row {
+        height: 140px;
+        width: 90%;
+    }
+
+    >.mat-toolbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background: var(--mat-toolbar-container-background-color, var(--mat-sys-on-secondary-container));
+        // border-bottom-left-radius: 36px;
+        // border-bottom-right-radius: 36px;
+        border-radius: 36px;
+        border: 3px solid #ffc600;
+        margin-top: 8px;
+
+        >.appLogo {
+            height: 132px;
+        }
+    }
+}
+
+.find-location-section {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    font-size: 16px;
+    color: white;
+}
+
+.seach-section {
+    width: 264px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid #ffc600;
+    border-radius: 48px;
+    background-color: white;
+    overflow: hidden;
+
+
+    &.focused {
+        box-shadow: 0 0 3px 1px #ffc600;
+        border-color: #ffc600;
+    }
+}
+
+#searchSectionInput {
+    height: 48px;
+    outline: none;
+    border-color: transparent;
+    font-size: 16px;
+    padding-left: 16px;
+    box-sizing: border-box;
+    background-color: white;
+    position: relative;
+    display: inline-block;
+}
+
+.search-btn,
+.current-location-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 48px;
+    width: 48px;
+    outline: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    background-color: white;
+    transition: all .3s ease-in-out;
+
+    &:hover {
+        background-color: #ffc600;
+        // border-radius: 50%;
+    }
+}
+
+.current-location-btn {
+    width: auto;
+    height: 48px;
+    padding: 0 16px 0 16px;
+    border: 2px solid #ffc600;
+    background: #2a5787;
+    border-radius: 48px;
+    font-size: 14px;
+    font-weight: bolder;
+    color: white;
+    gap: 4px;
+}
+
+.my-locations {
+    height: 52px;
+    width: 160px;
+    border-radius: 48px;
+    outline: none;
+    // border: 1px solid #ffc600;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 15px;
+    font-weight: 500;
+    color: white;
+    background-color: transparent;
+    cursor: pointer;
+    // transition: all .3s ease-in-out;
+
+    &:hover {
+        background-color: #2a5787;
+        border: 2px solid #ffc600;
+    }
+}
+
+.location-results {
+    border: 2px solid #ffc600;
+    list-style: none;
+    position: absolute;
+    top: 100px;
+    z-index: 9999;
+    background-color: #2a5787;
+    overflow-y: auto;
+    max-height: 316px;
+    max-width: 400px;
+    padding: 0;
+    border-radius: 16px;
+    // scrollbar-width: none;
+    overflow: hidden;
+}
+
+.location-results-scroll-wrapper {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.location-results-scroll-wrapper:hover .arrow-up,
+.location-results-scroll-wrapper:hover .arrow-down {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.location-results-list {
+    overflow: auto;
+    max-height: 300px;
+    padding: 8px 0;
+    scrollbar-width: none;
+}
+
+.arrow-up,
+.arrow-down {
+    position: absolute;
+    transform: translateX(-50%);
+    left: 50%;
+    width: 56px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #191d51d4;
+    filter: brightness(1px);
+    pointer-events: auto;
+    z-index: 2;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s ease, transform 0.15s ease;
+
+    &:hover {
+        background: #ffc800ac;
+    }
+}
+
+.arrow-up {
+    top: 0;
+    border-bottom-left-radius: 12px;
+    border-bottom-right-radius: 12px;
+}
+
+.arrow-down {
+    bottom: 0;
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+}
+
+.location-results li {
+    cursor: pointer;
+    font-size: 12px;
+    line-height: 26px;
+    padding: 0 16px;
+}
+
+.location-results li:hover {
+    background: #1d3d5e;
+}
+
+.location-results li.highlighted {
+    background-color: #1d3d5e;
+}
+
+:host {
+    position: relative;
+    /* damit absolute-Kinder sich daran orientieren */
+    z-index: 10;
+    /* Header über Dashboard */
+}

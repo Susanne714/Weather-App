@@ -1,0 +1,10 @@
+<div class="snowy-bg" [ngClass]="{'night-bg': isNight}">
+  <app-night-scene *ngIf="isNight"></app-night-scene>
+  <div class="snowflake" *ngFor="let flake of snowflakes"
+    [style.left.%]="flake.left"
+    [style.animationDelay.s]="flake.delay"
+    [style.animationDuration.s]="flake.duration"
+    [style.width.px]="flake.size"
+    [style.height.px]="flake.size">
+  </div>
+</div>

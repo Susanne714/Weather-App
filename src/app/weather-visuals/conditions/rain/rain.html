@@ -1,0 +1,8 @@
+<div 
+    class="raindrop" 
+    *ngFor="let drop of raindrops"
+    [style.left.%]="drop.left"
+    [style.animationDelay.s]="drop.delay"
+    [style.animationDuration.s]="drop.duration"
+    [style.borderLeftWidth.px]="drop.size">
+  </div> 

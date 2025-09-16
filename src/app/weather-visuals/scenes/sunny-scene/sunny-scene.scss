@@ -1,0 +1,43 @@
+.sunny-bg {
+    background: linear-gradient(44deg, rgba(65, 105, 225, 1) 0%, rgba(137, 207, 240, 1) 100%);
+    display: flex;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+
+    >.sun {
+        border-radius: 50%;
+        width: 100px;
+        height: 100px;
+        background-color: orange;
+        box-shadow: 0 0 80px 6px yellow, 0 0 44px 10px yellow inset;
+        position: absolute;
+        top: 60px;
+        right: 100px;
+    }
+}
+
+.night-bg {
+    background: radial-gradient(ellipse at bottom, #263649 0%, #131521 100%);
+}
+
+.sunny-bg.night-bg>.sun {
+    display: none;
+}
+
+// .sun {
+//     animation: pulse 4s infinite alternate ease-in-out;
+// }
+
+// @keyframes pulse {
+//     from {
+//         box-shadow: 0 0 35px 7px yellow, 0 0 44px 10px yellow inset;
+//     }
+
+//     to {
+//         box-shadow: 0 0 55px 15px yellow, 0 0 64px 15px yellow inset;
+//     }
+// }

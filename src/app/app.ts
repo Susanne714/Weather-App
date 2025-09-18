@@ -1,42 +1,43 @@
 import { Component, signal, ViewChild } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { Header } from './header/header';
-import { WeatherDashboard } from './weather-dashboard/weather-dashboard';
+import { Footer } from './footer/footer';
 
-import { LocationResult } from './services/weather'; //locationtest
+import { LocationResult } from './services/weather';
+import { WeatherBridge } from './services/weather-bridge';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, Header, WeatherDashboard],
+  imports: [RouterOutlet, Header, Footer],
   templateUrl: './app.html',
   styleUrl: './app.scss'
 })
-export class App {
-  @ViewChild('weatherDashboard') weatherDashboard!: WeatherDashboard;
 
+export class App {
   protected readonly title = signal('WeatherApp');
 
-  // selectedLocation: string = 'Düsseldorf';
-  // displayedLocationName: string = 'Düsseldorf';
-
-  // selectedLocation: string = '';
-  selectedLocation: LocationResult | null = null; //locationtest
+  selectedLocation: LocationResult | null = null;
   displayedLocationName: string = '';
 
+  constructor(private weatherBridge: WeatherBridge) { }
+
   // vom Header gesendeter Ort (Input-Feld)
-  // onLocationSelected(location: string) {
-  onLocationSelected(location: LocationResult) { //locationtest
+  onLocationSelected(location: LocationResult) {
     this.selectedLocation = location;
     console.log("eingegebener Ort:", this.selectedLocation)
+    console.log("APP: onLocationSelected() -> selectedLocation =", this.selectedLocation);
+    this.weatherBridge.selectLocation(location); // 👉 Service informiert Wrapper
   }
 
-  // vom Dashboard gesendeter realer Ortsname
-  onLocationNameChange(realName: string) {
-    this.displayedLocationName = realName;
-    console.log("Ort gefunden?:", this.displayedLocationName)
-  }
+  // vom Dashboard gesendeter realer Ortsname --> Testen, ob weiterhin funktional
+  // onLocationNameChange(realName: string) {
+  //   this.displayedLocationName = realName;
+  //   console.log("Ort gefunden?:", this.displayedLocationName)
+  //   console.log("APP: onLocationNameChange() -> displayedLocationName =", this.displayedLocationName);
+  // }
 
   onCurrentLocationRequested() {
-    this.weatherDashboard.getCurrentLocationWeather();
+    console.log("APP: onCurrentLocationRequested() -> call Wrapper");
+    this.weatherBridge.requestCurrentLocation();
   }
 }

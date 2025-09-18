@@ -5,6 +5,10 @@
     flex-direction: column;
     height: 67vh;
     gap: 5%;
+
+    >img {
+        height: 80px;
+    }
 }
 
 .weather-bg {

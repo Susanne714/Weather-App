@@ -1,4 +1,6 @@
 <app-header (locationChange)="onLocationSelected($event)" (currentLocationRequested)="onCurrentLocationRequested()"></app-header>
-<app-weather-dashboard [location]="selectedLocation" (locationNameChange)="onLocationNameChange($event)" #weatherDashboard></app-weather-dashboard>
-
-<router-outlet />
+<main class="main-content">
+    <!-- <app-weather-dashboard [location]="selectedLocation" (locationNameChange)="onLocationNameChange($event)" #weatherDashboard></app-weather-dashboard> -->
+     <router-outlet />
+</main>
+<app-footer></app-footer>

@@ -1,0 +1,16 @@
+section {
+    height: 67vh;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    overflow: hidden;
+    padding: 40px 0 0 0px;
+
+    >div {
+        width: 90%;
+
+        >a {
+            color: rgb(51, 70, 217);
+        }
+    }
+}

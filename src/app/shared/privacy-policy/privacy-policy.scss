@@ -1,0 +1,23 @@
+section {
+    height: 67vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    overflow: hidden;
+    padding: 40px 0 0 0px;
+
+    >div {
+        overflow-y: auto;
+        width: 90%;
+
+        &::-webkit-scrollbar {
+            width: 2px;
+        }
+
+        &::-webkit-scrollbar-thumb {
+            background-color: rgba(158, 164, 179, 0.502);
+            border-radius: 6px;
+        }
+    }
+}

@@ -1,5 +1,5 @@
 import { Component, signal, ViewChild } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { RouterOutlet, Router } from '@angular/router';
 import { Header } from './header/header';
 import { Footer } from './footer/footer';
 
@@ -19,7 +19,9 @@ export class App {
   selectedLocation: LocationResult | null = null;
   displayedLocationName: string = '';
 
-  constructor(private weatherBridge: WeatherBridge) { }
+  constructor(private weatherBridge: WeatherBridge,
+    private router: Router
+  ) { }
 
   // vom Header gesendeter Ort (Input-Feld)
   onLocationSelected(location: LocationResult) {
@@ -27,6 +29,7 @@ export class App {
     console.log("eingegebener Ort:", this.selectedLocation)
     console.log("APP: onLocationSelected() -> selectedLocation =", this.selectedLocation);
     this.weatherBridge.selectLocation(location); // 👉 Service informiert Wrapper
+    this.router.navigate(['/']);
   }
 
   // vom Dashboard gesendeter realer Ortsname --> Testen, ob weiterhin funktional
@@ -39,5 +42,6 @@ export class App {
   onCurrentLocationRequested() {
     console.log("APP: onCurrentLocationRequested() -> call Wrapper");
     this.weatherBridge.requestCurrentLocation();
+    this.router.navigate(['/']);
   }
 }

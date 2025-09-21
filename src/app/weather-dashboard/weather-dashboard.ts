@@ -20,6 +20,7 @@ export class WeatherDashboard {
   @Output() locationNameChange = new EventEmitter<string>();
   @ViewChild('currentWeather') currentWeather!: CurrentWeather;
 
+
   // 👉 reagiert auf Änderungen von location //locationtest (Funktion neu eingefügt)
   ngOnChanges(changes: SimpleChanges) {
     if (changes['location']?.currentValue && this.currentWeather) {
@@ -31,8 +32,8 @@ export class WeatherDashboard {
   // Diese Methode wird von App aufgerufen (via ViewChild)
   getCurrentLocationWeather() {
     // sicherstellen, dass child schon existiert
-    if (this.currentWeather && typeof this.currentWeather.getCurrentLocationWeather === 'function') {
-      this.currentWeather.getCurrentLocationWeather();
+    if (this.currentWeather && typeof this.currentWeather.loadCurrentLocationWeather === 'function') {
+      this.currentWeather.loadCurrentLocationWeather();
     }
   }
 

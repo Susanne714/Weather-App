@@ -15,6 +15,7 @@ import { HourlyForecast } from '../models/hourly-forecast.interface';
 import { WeatherIcon } from '../weather-icon/weather-icon';
 
 import { LocationResult } from '../services/weather';
+import { WeatherBridge } from '../services/weather-bridge';
 
 @Component({
   selector: 'app-current-weather',
@@ -52,31 +53,26 @@ export class CurrentWeather implements OnInit {
   // private readonly initialLon = 4.530153;
   // private readonly initialName = 'Zandvoort';
 
-  constructor(private weatherService: Weather) { }
+  constructor(private weatherService: Weather, private weatherBridge: WeatherBridge) { }
+
+  // ngOnInit() {
+  //   this.loadWeather(this.initialLat, this.initialLon, this.initialName);
+  // }
 
   ngOnInit() {
-    this.loadWeather(this.initialLat, this.initialLon, this.initialName);
+    if (this.location) {
+      // Wenn vom Wrapper/Bridge schon ein Ort gesetzt ist → den nehmen
+      this.loadWeather(this.location.lat, this.location.lon, this.location.name);
+    } else {
+      // sonst Standard (Düsseldorf)
+      this.loadWeather(this.initialLat, this.initialLon, this.initialName);
+    }
   }
 
   // ngOnChanges(changes: SimpleChanges) {
   //   if (changes['location']?.currentValue) {
   //     this.loadWeatherByLocation(this.location);
   //   }
-  // }
-
-  /** Holt Koordinaten anhand eines Namens und lädt dann Wetterdaten */
-  // public loadWeatherByLocation(location: string) {
-  //   this.weatherService.getCoordinates(location).subscribe({
-  //     next: (coords: { lat: number; lon: number; name?: string }) => {
-  //       if (coords.lat && coords.lon) {
-  //         const realName = coords.name || location;
-  //         this.loadWeather(coords.lat, coords.lon, realName);
-  //       } else {
-  //         this.handleUnknownLocation();
-  //       }
-  //     },
-  //     error: () => this.handleUnknownLocation()
-  //   });
   // }
 
   public loadWeather(lat: number, lon: number, realName: string) {
@@ -190,22 +186,47 @@ export class CurrentWeather implements OnInit {
     return directions[index];
   }
 
-  getCurrentLocationWeather() {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition((position) => {
-        const lat = position.coords.latitude;
-        const lon = position.coords.longitude;
-        console.log("Aktuelle Position:", lat, lon);
+  // getCurrentLocationWeather() {
+  //   if (navigator.geolocation) {
+  //     navigator.geolocation.getCurrentPosition((position) => {
+  //       const lat = position.coords.latitude;
+  //       const lon = position.coords.longitude;
+  //       console.log("Aktuelle Position:", lat, lon);
 
-        // ✅ Ortsnamen über Reverse-Geocoding holen
-        this.weatherService.getLocationNameFromCoords(lat, lon).subscribe((name: string) => {
-          this.loadWeather(lat, lon, name);
-          console.log("Aktuell:", lat, lon, name);
-        });
-      });
-    } else {
-      console.log("Geolocation wird nicht unterstützt");
-    }
+  //       // ✅ Ortsnamen über Reverse-Geocoding holen
+  //       this.weatherService.getLocationNameFromCoords(lat, lon).subscribe((name: string) => {
+  //         this.loadWeather(lat, lon, name);
+  //         console.log("Aktuell:", lat, lon, name);
+  //       });
+  //     });
+  //   } else {
+  //     console.log("Geolocation wird nicht unterstützt");
+  //   }
+  // }
+
+  // loadCurrentLocationWeather() {
+  //   this.weatherService.getCurrentLocation().subscribe({
+  //     next: (location) => {
+  //       console.log('Aktueller Standort:', location);
+  //       this.loadWeather(location.lat, location.lon, location.name);
+  //     },
+  //     error: (err) => console.error('Fehler bei Geolocation:', err)
+  //   });
+  // }
+
+  loadCurrentLocationWeather() {
+    this.weatherService.getCurrentLocation().subscribe({
+      next: (location) => {
+        console.log('Aktueller Standort:', location);
+
+        // 🌟 Wetter laden
+        this.loadWeather(location.lat, location.lon, location.name);
+
+        // 🌟 Bridge füttern → ab jetzt "lastLocation = aktueller Standort"
+        this.weatherBridge.selectLocation(location);
+      },
+      error: (err) => console.error('Fehler bei Geolocation:', err)
+    });
   }
 
   loadForecastData(apiData: any) {

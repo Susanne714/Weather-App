@@ -1,12 +1,12 @@
 <div class="weather-bg">
-    <div class="placeholder">
+    <!-- <div class="placeholder">
         <h2>Diese Ansicht ist gerade im Aufbau und bald verfügbar.</h2>
         <h2>This view is currently under construction and will be available soon.</h2>
         <img src="/img/appLogo5.png" alt="">
-    </div>
+    </div> -->
 
 
-    <!-- <div class="forecast-14d">
+    <div class="forecast-14d">
         <div class="forecast-scroll-wrapper">
             <div class="arrow-left"></div>
             <div class="arrow-right"></div>
@@ -14,8 +14,49 @@
                 <div class="forecast-day">
                     <p class="forecast-date">heute</p>
                     <div class="separator"></div>
-                    <h1>18°C</h1>
-                    <img src="/img/sun.svg" alt="">
+                    <div class="fc-weather-general">
+                        <h1>18°C</h1>
+                        <img class="weather-indicator" src="/img/sun.svg" alt="">
+                    </div>                    
+                    
+                    <div class="fc-conditions-daily">
+                        <table>
+                            <tr>                                
+                                <td><img src="/img/navigation_full_blue3.svg" alt=""></td>
+                                <td>schwacher Wind aus O (15km/h)</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <svg class="gust-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"width="36" height="36" role="img" aria-labelledby="title"><title id="title">Böen</title><style>:root {--sock-red: #e53935;--sock-white: #ffffff;--metal: #334155;/* Mast */--stroke: #0f172a;/* Kontur */}</style><rect x="20" y="14" width="3.5" height="32" rx="1.5" fill="var(--metal)"/><rect x="20" y="14" width="10" height="2.8" rx="1.4" fill="var(--metal)"/><defs><clipPath id="sock-clip"><path d="M 28 10 C 36 11, 44 12, 56 15 L 56 25 C 44 22, 36 21, 28 22 Z" /></clipPath></defs><g clip-path="url(#sock-clip)">
+                                    <rect x="26" y="9" width="34" height="18" fill="var(--sock-white)"/><rect x="26" y="9" width="4"  height="18" fill="var(--sock-red)"/><rect x="34" y="9" width="4"  height="18" fill="var(--sock-red)"/><rect x="42" y="9" width="4"  height="18" fill="var(--sock-red)"/><rect x="50" y="9" width="4"  height="18" fill="var(--sock-red)"/><rect x="58" y="9" width="4"  height="18" fill="var(--sock-red)"/></g><path d="M 28 10 C 36 11, 44 12, 56 15 L 56 25 C 44 22, 36 21, 28 22 Z" fill="none" stroke="var(--stroke)" stroke-width="1.2" stroke-linejoin="round"/></svg>
+                                </td>
+                                <td>Böen bis 16km/h</td>
+                            </tr>
+                            <tr>
+                                <td><img src="/img/water.svg" alt=""></td>
+                                <td>Wellenhöhe bis 0.4m</td>
+                            </tr>
+                            <tr>
+                                <td><div class="sun-rise-an-set-indicator"></div></td>
+                                <td>
+                                    <div class="sunrise-set-row"><p>⭡ 08:02</p><p>⭣ 19:48</p></div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><img src="/img/thermostat_red.png" alt=""></td>
+                                <td>19°C / 11°C</td>
+                            </tr>
+                            <tr>
+                                <td><img src="/img/umbrella.png" alt=""></td>
+                                <td>10%</td>
+                            </tr>
+                            <tr>
+                                <td><img src="/img/UV_icon.png" alt="" class="uv-index"></td>
+                                <td>UV-Index 0 niedrig</td>
+                            </tr>
+                        </table>
+                    </div>
+
                 </div>
                 <div class="forecast-day">Wetter 2</div>
                 <div class="forecast-day">Wetter 3</div>
@@ -23,5 +64,5 @@
                 <div class="forecast-day">Wetter 5</div>
             </div>
         </div>
-    </div> -->
+    </div>
 </div>

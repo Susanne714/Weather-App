@@ -12,6 +12,7 @@ import { DailyForecast } from '../models/daily-forecast.interface';
 })
 export class WeatherForecast {
   forecast14d: DailyForecast[] = [];
+  showLongWeekday = true; // 👈 Einfach umstellen (true = lang, false = kurz): Anzeige für Responsive ggf anpassen, falls nicht notwendig: löschen.
 
   weatherData: any;
 
@@ -66,10 +67,28 @@ export class WeatherForecast {
     });
   }
 
+  private loadMarineData14(lat: number, lon: number): void {
+    this.weatherService.getMarineData(lat, lon).subscribe({
+      next: (marine) => {
+        if (marine.daily && marine.daily.wave_height_max) {
+          // Gleiche Anzahl von Tagen → Werte zuweisen
+          this.forecast14d = this.forecast14d.map((fc, index) => ({
+            ...fc,
+            waveHeight: marine.daily.wave_height_max[index] ?? null
+          }));
+        }
+      },
+      error: (err) => {
+        console.warn("Marine-Daten nicht verfügbar (14 Tage)", err);
+      }
+    });
+  }
+
   private buildDailyForecast(apiData: any) {
     return apiData.daily.time.map((date: string, index: number) => {
       return {
         date,
+        dateLabel: this.formatDateLabel(date, true),
         temperatureMean: apiData.daily.temperature_2m_mean[index],
         windSpeed: apiData.daily.wind_speed_10m_max[index],
         windDirection: apiData.daily.wind_direction_10m_dominant[index],
@@ -91,21 +110,18 @@ export class WeatherForecast {
     return directions[index];
   }
 
-  private loadMarineData14(lat: number, lon: number): void {
-    this.weatherService.getMarineData(lat, lon).subscribe({
-      next: (marine) => {
-        if (marine.daily && marine.daily.wave_height_max) {
-          // Gleiche Anzahl von Tagen → Werte zuweisen
-          this.forecast14d = this.forecast14d.map((fc, index) => ({
-            ...fc,
-            waveHeight: marine.daily.wave_height_max[index] ?? null
-          }));
-        }
-      },
-      error: (err) => {
-        console.warn("Marine-Daten nicht verfügbar (14 Tage)", err);
-      }
-    });
+  private formatDateLabel(dateString: string, longWeekday: boolean = false): string {
+    const date = new Date(dateString);
+    const today = new Date();
+
+    const isToday = date.toDateString() === today.toDateString();
+
+    if (isToday) return 'heute';
+
+    const options: Intl.DateTimeFormatOptions = { weekday: longWeekday ? 'long' : 'short', day: '2-digit', month: '2-digit' };
+    const formatted = date.toLocaleDateString('de-DE', options);
+
+    return formatted.replace(',', ',').replace(/\s+/g, ' ');
   }
 
 }

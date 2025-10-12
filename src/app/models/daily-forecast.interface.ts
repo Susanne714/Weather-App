@@ -2,6 +2,7 @@ export interface DailyForecast {
     date: string;
     dateLabel: string,
     temperatureMean: number;
+    weatherCode: number;
     windSpeed: number;
     windDirection: string;
     windDirectionLabel: string;

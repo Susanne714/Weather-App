@@ -12,7 +12,7 @@
             <div class="arrow-right"></div>
             <div class="forecast-container">
                 <div class="forecast-day" *ngFor="let day of forecast14d">
-                    <p class="forecast-date">{{day.date | date: 'dd.MM.yyyy'}}</p>
+                    <p class="forecast-date">{{day.dateLabel}}</p>
                     <div class="separator"></div>
                     <div class="fc-info-top">
                         <h1>{{day.temperatureMean | number: '1.0-0'}}°C</h1>
@@ -20,7 +20,7 @@
                     </div>                  
                     <div class="fc-conditions-daily">
                         <div class="fc-condition-detail">
-                            <img src="/img/navigation_full_blue3.svg" alt="">
+                            <img src="/img/navigation_full_blue3.svg" [style.transform]="'rotate(' + day.windDirection + 'deg)'" alt="wind direction mark">
                             <p>{{day.windSpeed | number: '1.0-0'}} km/h aus {{day.windDirectionLabel}}</p>
                         </div>
                         <div class="fc-condition-detail">

@@ -10,6 +10,7 @@ import { CommonModule } from '@angular/common';
 export class WeatherIcon {
   @Input() isDaytime = true; //Nacht-Icon-Steuerung
   @Input() code!: number;
+  @Input() scale: number = 1; // Standardgröße (1 = 100%)
 
   get iconName(): string {
     if (this.code === 0) return 'sunny';

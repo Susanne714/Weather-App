@@ -3,10 +3,11 @@ import { CommonModule } from '@angular/common';
 
 import { Weather } from '../services/weather';
 import { DailyForecast } from '../models/daily-forecast.interface';
+import { WeatherIcon } from '../weather-icon/weather-icon';
 
 @Component({
   selector: 'app-weather-forecast',
-  imports: [CommonModule],
+  imports: [CommonModule, WeatherIcon],
   templateUrl: './weather-forecast.html',
   styleUrl: './weather-forecast.scss'
 })
@@ -90,6 +91,7 @@ export class WeatherForecast {
         date,
         dateLabel: this.formatDateLabel(date, true),
         temperatureMean: apiData.daily.temperature_2m_mean[index],
+        weatherCode: apiData.daily.weather_code[index],
         windSpeed: apiData.daily.wind_speed_10m_max[index],
         windDirection: apiData.daily.wind_direction_10m_dominant[index],
         windDirectionLabel: this.getWindDirectionLabel(apiData.daily.wind_direction_10m_dominant[index]),

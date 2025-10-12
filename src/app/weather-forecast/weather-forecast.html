@@ -16,7 +16,8 @@
                     <div class="separator"></div>
                     <div class="fc-info-top">
                         <h1>{{day.temperatureMean | number: '1.0-0'}}°C</h1>
-                        <img class="weather-indicator" src="/img/sun.svg" alt="">
+                        <!-- <img class="weather-indicator" src="/img/sun.svg" alt=""> -->
+                         <app-weather-icon [code]="day.weatherCode" [scale]="1.4"></app-weather-icon>
                     </div>                  
                     <div class="fc-conditions-daily">
                         <div class="fc-condition-detail">

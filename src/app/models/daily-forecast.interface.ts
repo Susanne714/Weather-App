@@ -10,4 +10,6 @@ export interface DailyForecast {
     tempMin: number;
     tempMax: number;
     waveHeight?: number | null,
+    uvIndex: number,
+    daylightDuration: number,
 }

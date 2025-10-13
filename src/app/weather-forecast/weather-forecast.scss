@@ -36,6 +36,10 @@
     z-index: 1;
 }
 
+.forecast-header {
+    text-align: center;
+}
+
 .forecast-scroll-wrapper {
     position: relative;
 }
@@ -51,11 +55,12 @@
 }
 
 .forecast-day {
-    min-width: 240px;
+    min-width: 120px;
     flex: 0 0 auto;
     text-align: center;
     border-radius: 8px;
-    background: rgba(255, 255, 255, 0.1);
+    // background: rgba(255, 255, 255, 0.1);
+    background: rgba(9, 6, 159, 0.1);
     padding: 16px 8px;
     display: flex;
     align-items: center;
@@ -77,13 +82,13 @@
     width: 100%;
     height: 1px;
     background: #00006e;
-    margin: 0 0 20px 0;
+    margin: 0 0 12px 0;
 }
 
 .fc-info-top {
     display: flex;
     flex-direction: column;
-    margin-bottom: 28px;
+    // margin-bottom: 28px;
     gap: 12px;
 
     >.weather-indicator {
@@ -129,11 +134,50 @@
     gap: 12px;
 }
 
+// .forecast-detail-1d {
+//     display: flex;
+//     justify-content: space-between;
+//     height: 0;
+//     width: 100%;
+//     background: rgba(255, 255, 255, 0.1);
+//     height: 40vh;
+
+// }
+
 .forecast-detail-1d {
-    display: flex;
-    justify-content: space-between;
-    height: 0;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); // zwei Spalten
+    grid-template-rows: repeat(2, 1fr); // zwei Reihen
+    gap: 12px;
     width: 100%;
-    background: rgba(255, 255, 255, 0.1);
-    height: 16vh;
+    height: calc(67vh - 260px); // Resthöhe nach Forecast (evt. feintunen)
+    padding: 12px;
+    box-sizing: border-box;
+    // background: rgba(255, 255, 255, 0.15);
+    border-radius: 12px;
+    overflow-y: auto;
+    scrollbar-width: thin;
+
+    @media (max-width: 768px) {
+        grid-template-columns: 1fr; // eine Spalte
+        grid-template-rows: repeat(4, 1fr);
+    }
+
+    .detail-box {
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 10px;
+        display: flex;
+        align-items: flex-start;
+        justify-content: center;
+        flex-direction: column;
+        text-align: center;
+        font-weight: 500;
+        padding: 12px;
+        gap: 10px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+        p {
+            margin: 0;
+        }
+    }
 }

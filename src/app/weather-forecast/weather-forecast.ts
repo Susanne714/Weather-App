@@ -14,7 +14,7 @@ import { WeatherIcon } from '../weather-icon/weather-icon';
 export class WeatherForecast {
   forecast14d: DailyForecast[] = [];
   showLongWeekday = true; // 👈 Einfach umstellen (true = lang, false = kurz): Anzeige für Responsive ggf anpassen, falls nicht notwendig: löschen.
-
+  selectedDay: DailyForecast | null = null;
   weatherData: any;
 
   // private readonly initialLat = 51.316601;
@@ -59,6 +59,7 @@ export class WeatherForecast {
     this.weatherService.getWeather(lat, lon).subscribe({
       next: (data) => {
         this.forecast14d = this.buildDailyForecast(data);
+        this.selectedDay = this.forecast14d[0];
         this.loadMarineData14(lat, lon);
         console.log("Forecast14d:", this.forecast14d);
 
@@ -87,6 +88,9 @@ export class WeatherForecast {
 
   private buildDailyForecast(apiData: any) {
     return apiData.daily.time.map((date: string, index: number) => {
+      const daylightSeconds = apiData.daily.daylight_duration[index];
+      const daylightHours = Math.floor(daylightSeconds / 3600);
+      const daylightMinutes = Math.round((daylightSeconds % 3600) / 60);
       return {
         date,
         dateLabel: this.formatDateLabel(date, true),
@@ -99,6 +103,8 @@ export class WeatherForecast {
         tempMin: apiData.daily.temperature_2m_min[index],
         tempMax: apiData.daily.temperature_2m_max[index],
         waveHeight: null,
+        uvIndex: Math.round(apiData.daily.uv_index_max[index]),
+        daylightDuration: `${daylightHours} h ${daylightMinutes} min`,
       }
     })
   }
@@ -124,6 +130,18 @@ export class WeatherForecast {
     const formatted = date.toLocaleDateString('de-DE', options);
 
     return formatted.replace(',', ',').replace(/\s+/g, ' ');
+  }
+
+  selectDay(day: DailyForecast) {
+    this.selectedDay = day;
+  }
+
+  public getUvCategory(uv: number): string {
+    if (uv <= 2) return 'niedrig';
+    if (uv <= 5) return 'mäßig';
+    if (uv <= 7) return 'hoch';
+    if (uv <= 10) return 'sehr hoch';
+    return 'extrem';
   }
 
 }

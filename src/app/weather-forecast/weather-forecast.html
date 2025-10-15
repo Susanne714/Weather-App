@@ -15,7 +15,7 @@
             <div class="arrow-left"></div>
             <div class="arrow-right"></div>
             <div class="forecast-container">
-                <div class="forecast-day" *ngFor="let day of forecast14d" (click)="selectDay(day)">
+                <div class="forecast-day" *ngFor="let day of forecast14d" (click)="selectDay(day)" [class.active]="selectedDay === day">
                     <p class="forecast-date">{{day.dateLabel}}</p>
                     <div class="separator"></div>
                     <div class="fc-info-top">
@@ -83,7 +83,10 @@
             <div class="detail-box">
                 <div class="fc-condition-detail">
                     <img src="/img/water.svg" alt="">
-                    <p>Wellenhöhe bis {{ selectedDay?.waveHeight != null ? (selectedDay.waveHeight | number:'1.1-1') + ' m' : '---'  }}</p>
+                    <p *ngIf="selectedDay.waveHeight !== null; else noData">Wellenhöhe bis {{ selectedDay.waveHeight != null ? (selectedDay.waveHeight | number:'1.1-1') + ' m' : '---'  }}</p>
+                    <ng-template #noData>
+                        <span class="no-data">Daten noch nicht verfügbar</span>
+                    </ng-template>
                 </div>
                 <div class="fc-condition-detail">
                     <img src="/img/umbrella.png" alt="">
@@ -92,7 +95,7 @@
             </div>
             
             <div class="detail-box">
-                <p>Tageslichtdauer: 8 Stunden</p>
+                <p>{{selectedDay.temperatureMean}}</p>
             </div>
            
         </div>

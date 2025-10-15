@@ -79,6 +79,8 @@ export class WeatherForecast {
             waveHeight: marine.daily.wave_height_max[index] ?? null
           }));
         }
+        this.selectedDay = this.forecast14d[0];
+        console.log("Wellen:", marine.daily.wave_height_max)
       },
       error: (err) => {
         console.warn("Marine-Daten nicht verfügbar (14 Tage)", err);

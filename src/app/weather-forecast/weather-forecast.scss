@@ -66,11 +66,14 @@
     align-items: center;
     flex-direction: column;
     cursor: pointer;
-    // height: 62vh; //bei voller Containerhöhe
 
-    // >.weather-indicator {
-    //     height: 80px;
-    // }
+}
+
+.forecast-day.active {
+    background: rgba(9, 6, 159, 0.25);
+    // border: 1px solid rgba(9, 6, 159, 0.4);
+    box-shadow: 0 0 8px rgba(9, 6, 159, 0.3);
+    transition: all 0.2s ease-in-out;
 }
 
 .forecast-date {
@@ -180,4 +183,9 @@
             margin: 0;
         }
     }
+}
+
+.no-data {
+    color: rgba(255, 255, 255, 0.7);
+    font-style: italic;
 }

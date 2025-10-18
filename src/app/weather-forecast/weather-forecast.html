@@ -20,33 +20,8 @@
                     <div class="separator"></div>
                     <div class="fc-info-top">
                         <h1>{{day.temperatureMean | number: '1.0-0'}}°C</h1>
-                        <!-- <img class="weather-indicator" src="/img/sun.svg" alt=""> -->
                          <app-weather-icon [code]="day.weatherCode" [scale]="1.4"></app-weather-icon>
-                    </div>     
-                    
-                    
-                    <!-- <div class="fc-conditions-daily">
-                        <div class="fc-condition-detail">
-                            <img src="/img/navigation_full_blue3.svg" [style.transform]="'rotate(' + day.windDirection + 'deg)'" alt="wind direction mark">
-                            <p>{{day.windSpeed | number: '1.0-0'}} km/h aus {{day.windDirectionLabel}}</p>
-                        </div>
-                        <div class="fc-condition-detail">
-                            <svg class="gust-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"width="24" height="24" role="img" aria-labelledby="title"><title id="title">Böen</title><style>:root {--sock-red: #e53935;--sock-white: #ffffff;--metal: #334155;/* Mast */--stroke: #0f172a;/* Kontur */}</style><rect x="20" y="14" width="3.5" height="32" rx="1.5" fill="var(--metal)"/><rect x="20" y="14" width="10" height="2.8" rx="1.4" fill="var(--metal)"/><defs><clipPath id="sock-clip"><path d="M 28 10 C 36 11, 44 12, 56 15 L 56 25 C 44 22, 36 21, 28 22 Z" /></clipPath></defs><g clip-path="url(#sock-clip)">
-                            <rect x="26" y="9" width="34" height="18" fill="var(--sock-white)"/><rect x="26" y="9" width="4"  height="18" fill="var(--sock-red)"/><rect x="34" y="9" width="4"  height="18" fill="var(--sock-red)"/><rect x="42" y="9" width="4"  height="18" fill="var(--sock-red)"/><rect x="50" y="9" width="4"  height="18" fill="var(--sock-red)"/><rect x="58" y="9" width="4"  height="18" fill="var(--sock-red)"/></g><path d="M 28 10 C 36 11, 44 12, 56 15 L 56 25 C 44 22, 36 21, 28 22 Z" fill="none" stroke="var(--stroke)" stroke-width="1.2" stroke-linejoin="round"/></svg>
-                            <p>Böen bis {{day.windGusts | number: '1.0-0'}} km/h</p>
-                        </div>
-                        <div class="fc-condition-detail">
-                            <img src="/img/water.svg" alt="">
-                            <p>Wellenhöhe bis {{ day?.waveHeight != null ? (day.waveHeight | number:'1.1-1') + ' m' : '---'  }}</p>
-                        </div>
-                        <div class="fc-condition-detail">
-                            <img src="/img/thermostat_red.png" alt="">
-                            <p>{{day.tempMin | number: '1.0-0'}}°C / {{day.tempMax }}°C</p>
-                        </div>
-
-                    </div> -->
-
-
+                    </div>                         
                 </div>
             </div>
         </div>
@@ -61,10 +36,9 @@
                     <svg class="gust-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"width="24" height="24" role="img" aria-labelledby="title"><title id="title">Böen</title><style>:root {--sock-red: #e53935;--sock-white: #ffffff;--metal: #334155;/* Mast */--stroke: #0f172a;/* Kontur */}</style><rect x="20" y="14" width="3.5" height="32" rx="1.5" fill="var(--metal)"/><rect x="20" y="14" width="10" height="2.8" rx="1.4" fill="var(--metal)"/><defs><clipPath id="sock-clip"><path d="M 28 10 C 36 11, 44 12, 56 15 L 56 25 C 44 22, 36 21, 28 22 Z" /></clipPath></defs><g clip-path="url(#sock-clip)">
                     <rect x="26" y="9" width="34" height="18" fill="var(--sock-white)"/><rect x="26" y="9" width="4"  height="18" fill="var(--sock-red)"/><rect x="34" y="9" width="4"  height="18" fill="var(--sock-red)"/><rect x="42" y="9" width="4"  height="18" fill="var(--sock-red)"/><rect x="50" y="9" width="4"  height="18" fill="var(--sock-red)"/><rect x="58" y="9" width="4"  height="18" fill="var(--sock-red)"/></g><path d="M 28 10 C 36 11, 44 12, 56 15 L 56 25 C 44 22, 36 21, 28 22 Z" fill="none" stroke="var(--stroke)" stroke-width="1.2" stroke-linejoin="round"/></svg>
                     <p>Böen bis {{selectedDay.windGusts | number: '1.0-0'}} km/h</p>
-                </div>
-                
-                
+                </div>                                
             </div>
+            
             <div class="detail-box">
                 <div class="fc-condition-detail">
                     <img src="/img/thermostat_red.png" alt="">
@@ -95,7 +69,14 @@
             </div>
             
             <div class="detail-box">
-                <p>{{selectedDay.temperatureMean}}</p>
+                <div class="daytime-forecast-grid" *ngIf="selectedDay?.dayParts?.length">
+                    <div class="time-box" *ngFor="let part of selectedDay.dayParts">
+                    <h4>{{ part.label }}</h4>
+                    <p>{{ part.temp | number:'1.0-0' }}°C</p>
+                    <app-weather-icon [code]="part.weatherCode" [scale]="0.7" [isDaytime]="part.isDayTime"></app-weather-icon>
+                    <img src="/img/navigation_full_blue.svg" [style.transform]="'rotate(' + part.windDirection + 'deg)'" alt="Wind direction mark">
+                    <p>{{ part.windSpeed | number: '1.0-0'}} km/h ({{part.windDirectionLabel}})</p>
+                </div>
             </div>
            
         </div>

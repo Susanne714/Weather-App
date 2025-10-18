@@ -12,4 +12,15 @@ export interface DailyForecast {
     waveHeight?: number | null,
     uvIndex: number,
     daylightDuration: number,
+
+    dayParts?: {
+        label: string;
+        temp: number | null;
+        weatherCode: number;
+        windSpeed: number;
+        windDirection: string;
+        windDirectionLabel: string;
+        isDayTime: boolean;
+
+    }[];
 }

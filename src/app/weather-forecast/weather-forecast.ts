@@ -31,34 +31,18 @@ export class WeatherForecast {
     this.loadWeather14(this.initialLat, this.initialLon);
   }
 
-  // loadWeather14(lat: number, lon: number) {
-  //   this.weatherService.getWeather(lat, lon).subscribe({
-  //     next: (data) => {
-  //       this.weatherData = data.daily;
-  //       console.log("Wetterdaten:", this.weatherData);
-
-  //     }
-  //   })
-  // }
-
-  // loadWeather14(lat: number, lon: number) {
-  //   this.weatherService.getWeather(lat, lon).subscribe({
-  //     next: (data) => {
-  //       const daily = data.daily;
-  //       this.forecast14d = daily.time.map((date: string, i: number) => ({
-  //         date,
-  //         temp: daily.temperature_2m_mean[i]
-  //       }));
-  //       console.log('Vorhersage 14 Tage:', this.forecast14d);
-  //     },
-  //     error: (err) => console.error('Fehler beim Abruf:', err)
-  //   });
-  // }
-
   loadWeather14(lat: number, lon: number) {
     this.weatherService.getWeather(lat, lon).subscribe({
       next: (data) => {
         this.forecast14d = this.buildDailyForecast(data);
+        const analyzedHourly = this.analyzeHourlyData(data);
+
+        // Wir fügen die Mini-Vorschau-Daten jedem Tagesobjekt hinzu:
+        this.forecast14d = this.forecast14d.map(day => ({
+          ...day,
+          miniForecast: analyzedHourly[day.date] ?? []
+        }));
+        // this.applyDaySegments(data);
         this.selectedDay = this.forecast14d[0];
         this.loadMarineData14(lat, lon);
         console.log("Forecast14d:", this.forecast14d);
@@ -144,6 +128,101 @@ export class WeatherForecast {
     if (uv <= 7) return 'hoch';
     if (uv <= 10) return 'sehr hoch';
     return 'extrem';
+  }
+
+  /** Start Analyse für Forecast je Tageszeit (Abschnitt) */
+  private analyzeHourlyData(apiData: any) {
+    const intervals = this.getDayIntervals();
+    const resultsByDay = this.groupHourlyDataByDate(apiData);
+    return this.analyzeByIntervals(resultsByDay, intervals);
+  }
+
+  /** 1) Gibt die definierten Zeitabschnitte des Tages zurück */
+  private getDayIntervals() {
+    return [
+      { name: 'Vormittag', start: 6, end: 12, isDayTime: true },
+      { name: 'Nachmittag', start: 12, end: 18, isDayTime: true },
+      { name: 'Abend', start: 18, end: 24, isDayTime: true },
+      { name: 'Nacht', start: 0, end: 6, isDayTime: false },
+    ];
+  }
+
+  /** 2) Gruppiert die API-Stundenwerte nach Datum */
+  private groupHourlyDataByDate(apiData: any): Record<string, any[]> {
+    const grouped: Record<string, any[]> = {};
+
+    apiData.hourly.time.forEach((time: string, index: number) => {
+      const date = time.split('T')[0];
+      const hour = new Date(time).getHours();
+
+      const entry = {
+        hour,
+        temp: apiData.hourly.temperature_2m[index],
+        code: apiData.hourly.weathercode[index],
+        windSpeed: apiData.hourly.wind_speed_10m[index],
+        windDirection: apiData.hourly.wind_direction_10m[index],
+        windGusts: apiData.hourly.wind_gusts_10m[index],
+      };
+
+      if (!grouped[date]) grouped[date] = [];
+      grouped[date].push(entry);
+    });
+
+    return grouped;
+  }
+
+  /** 3) Analysiert jede Tagesgruppe für alle Zeitintervalle */
+  private analyzeByIntervals(
+    resultsByDay: Record<string, any[]>,
+    intervals: { name: string; start: number; end: number; isDayTime: boolean }[]
+  ): Record<string, any[]> {
+    const analyzed: Record<string, any[]> = {};
+
+    for (const [day, hours] of Object.entries(resultsByDay)) {
+      analyzed[day] = intervals
+        .map(interval => this.analyzeInterval(hours, interval))
+        .filter(Boolean); // entfernt leere Intervalle
+    }
+
+    return analyzed;
+  }
+
+  /** 4) Analysiert ein einzelnes Zeitintervall (z. B. "Vormittag") */
+  private analyzeInterval(hours: any[], interval: any) {
+    const section = hours.filter(
+      h => h.hour >= interval.start && h.hour < interval.end
+    );
+
+    if (section.length === 0) return null;
+
+    const maxTemp = this.getPeak(section, 'max');
+    const minTemp = this.getPeak(section, 'min');
+
+    const highest = this.withWindLabel(maxTemp);
+    const lowest = this.withWindLabel(minTemp);
+
+    return {
+      interval: interval.name,
+      isDayTime: interval.isDayTime,
+      highest,
+      lowest,
+      display: interval.isDayTime ? highest : lowest,
+    };
+  }
+
+  /** 5) Gibt den Temperatur-Peak (max/min) eines Abschnitts zurück */
+  private getPeak(section: any[], type: 'max' | 'min') {
+    return section.reduce((a, b) =>
+      type === 'max' ? (b.temp > a.temp ? b : a) : (b.temp < a.temp ? b : a)
+    );
+  }
+
+  /** 6) Fügt Windrichtungslabel hinzu */
+  private withWindLabel(base: any) {
+    return {
+      ...base,
+      windDirectionLabel: this.getWindDirectionLabel(base.windDirection),
+    };
   }
 
 }

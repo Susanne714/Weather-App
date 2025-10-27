@@ -13,14 +13,38 @@ export interface DailyForecast {
     uvIndex: number,
     daylightDuration: number,
 
-    dayParts?: {
-        label: string;
-        temp: number | null;
-        weatherCode: number;
+    miniForecast?: MiniForecastSection[];
+}
+
+export interface MiniForecastSection {
+    interval: string;
+    highest: {
+        temp: number;
+        code: number;
+        hour: number;
         windSpeed: number;
         windDirection: string;
         windDirectionLabel: string;
-        isDayTime: boolean;
+        windGusts: number;
+    };
+    lowest: {
+        temp: number;
+        code: number;
+        hour: number;
+        windSpeed: number;
+        windDirection: string;
+        windDirectionLabel: string;
+        windGusts: number;
+    };
+    isDayTime: boolean;
 
-    }[];
+    display: {
+        temp: number;
+        code: number;
+        hour: number;
+        windSpeed: number;
+        windDirection: string;
+        windDirectionLabel: string;
+        windGusts: number;
+    };
 }

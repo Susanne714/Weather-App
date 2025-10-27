@@ -217,7 +217,7 @@ export class WeatherForecast {
     );
   }
 
-  /** 6) Fügt Windrichtungslabel hinzu */
+  /** 6) Fügt Windrichtungslabel hinzu (Anzeiger) */
   private withWindLabel(base: any) {
     return {
       ...base,

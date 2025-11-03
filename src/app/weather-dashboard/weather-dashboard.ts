@@ -19,13 +19,26 @@ export class WeatherDashboard {
   @Input() location: LocationResult | null = null; //locationTest
   @Output() locationNameChange = new EventEmitter<string>();
   @ViewChild('currentWeather') currentWeather!: CurrentWeather;
+  @ViewChild('weatherForecast') weatherForecast!: WeatherForecast;
 
 
   // 👉 reagiert auf Änderungen von location //locationtest (Funktion neu eingefügt)
+  // ngOnChanges(changes: SimpleChanges) {
+  //   if (changes['location']?.currentValue && this.currentWeather) {
+  //     const loc = this.location!;
+  //     this.currentWeather.loadWeather(loc.lat, loc.lon, loc.name);
+  //   }
+  // }
+
   ngOnChanges(changes: SimpleChanges) {
-    if (changes['location']?.currentValue && this.currentWeather) {
+    if (changes['location']?.currentValue) {
       const loc = this.location!;
-      this.currentWeather.loadWeather(loc.lat, loc.lon, loc.name);
+      if (this.currentWeather) {
+        this.currentWeather.loadWeather(loc.lat, loc.lon, loc.name);
+      }
+      if (this.weatherForecast) {
+        this.weatherForecast.loadWeather14(loc.lat, loc.lon);
+      }
     }
   }
 

@@ -149,8 +149,8 @@
 
 .forecast-detail-1d {
     display: grid;
-    grid-template-columns: repeat(2, 1fr); // zwei Spalten
-    grid-template-rows: repeat(2, 1fr); // zwei Reihen
+    // grid-template-columns: repeat(2, 1fr); // zwei Spalten
+    // grid-template-rows: repeat(2, 1fr); // zwei Reihen
     gap: 12px;
     width: 100%;
     height: calc(67vh - 260px); // Resthöhe nach Forecast (evt. feintunen)
@@ -161,9 +161,30 @@
     overflow-y: auto;
     scrollbar-width: thin;
 
+    grid-template-columns: 1.4fr 1fr;
+    grid-template-rows: auto auto;
+    grid-template-areas:
+        "box1 box2"
+        "box3 box3";
+
     @media (max-width: 768px) {
         grid-template-columns: 1fr; // eine Spalte
-        grid-template-rows: repeat(4, 1fr);
+        // grid-template-rows: repeat(4, 1fr);
+        grid-template-areas:
+            "box1"
+            "box2"
+            "box3";
+    }
+
+    .box1 {
+        overflow-x: auto;
+        scrollbar-width: none;
+        min-height: 178px;
+    }
+
+    .box3 {
+        grid-area: box3;
+        // width: 100%; // nur falls nötig, um sicherzugehen
     }
 
     .detail-box {
@@ -206,6 +227,8 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    min-width: 128px;
+    // max-width: 140px;
 
     >.day-section-info-box {
         display: flex;

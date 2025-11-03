@@ -1,9 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { Weather } from '../services/weather';
+import { LocationResult } from '../services/weather';
 import { DailyForecast } from '../models/daily-forecast.interface';
 import { WeatherIcon } from '../weather-icon/weather-icon';
+
+import { WeatherBridge } from '../services/weather-bridge';
 
 @Component({
   selector: 'app-weather-forecast',
@@ -12,23 +15,43 @@ import { WeatherIcon } from '../weather-icon/weather-icon';
   styleUrl: './weather-forecast.scss'
 })
 export class WeatherForecast {
+  @Input() location: LocationResult | null = null;
+  @Output() locationNameChange = new EventEmitter<string>();
+
   forecast14d: DailyForecast[] = [];
   showLongWeekday = true; // 👈 Einfach umstellen (true = lang, false = kurz): Anzeige für Responsive ggf anpassen, falls nicht notwendig: löschen.
   selectedDay: DailyForecast | null = null;
   weatherData: any;
+  locationName: string = '';
 
-  // private readonly initialLat = 51.316601;
-  // private readonly initialLon = 6.749072;
-  // private readonly initialName = 'Düsseldorf';
+  private readonly initialLat = 51.316601;
+  private readonly initialLon = 6.749072;
+  private readonly initialName = 'Düsseldorf';
 
-  private readonly initialLat = 52.371693;
-  private readonly initialLon = 4.522095;
-  private readonly initialName = 'Zandvoort';
+  // private readonly initialLat = 52.371693;
+  // private readonly initialLon = 4.522095;
+  // private readonly initialName = 'Zandvoort';
 
-  constructor(private weatherService: Weather) { }
+  constructor(private weatherService: Weather, private weatherBridge: WeatherBridge) { }
+
+  // ngOnInit() {
+  //   this.loadWeather14(this.initialLat, this.initialLon);
+  //   console.log("HALLO");
+  // }
 
   ngOnInit() {
-    this.loadWeather14(this.initialLat, this.initialLon);
+    if (this.location) {
+      // Wenn vom Wrapper/Bridge schon ein Ort gesetzt ist → den nehmen
+      // this.loadWeather14(this.location.lat, this.location.lon, this.location.name);
+      this.loadWeather14(this.location.lat, this.location.lon);
+      console.log("HALLO");
+
+    } else {
+      // sonst Standard (Düsseldorf)
+      // this.loadWeather14(this.initialLat, this.initialLon, this.initialName);
+      this.loadWeather14(this.initialLat, this.initialLon);
+      console.log("HALLO2", this.initialLat, this.initialLon, this.initialName);
+    }
   }
 
   loadWeather14(lat: number, lon: number) {
@@ -45,6 +68,7 @@ export class WeatherForecast {
         // this.applyDaySegments(data);
         this.selectedDay = this.forecast14d[0];
         this.loadMarineData14(lat, lon);
+        this.locationNameChange.emit(this.locationName);
         console.log("Forecast14d:", this.forecast14d);
 
 

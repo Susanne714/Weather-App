@@ -53,5 +53,9 @@ export class WeatherDashboard {
   // wird vom child (current-weather) aufgerufen, Weiterleitung an App
   onLocationNameChange(name: string) {
     this.locationNameChange.emit(name);
+
+    if (this.weatherForecast) {
+      this.weatherForecast.locationName = name;
+    }
   }
 }

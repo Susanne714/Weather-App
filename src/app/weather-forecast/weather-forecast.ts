@@ -6,8 +6,6 @@ import { LocationResult } from '../services/weather';
 import { DailyForecast } from '../models/daily-forecast.interface';
 import { WeatherIcon } from '../weather-icon/weather-icon';
 
-import { WeatherBridge } from '../services/weather-bridge';
-
 @Component({
   selector: 'app-weather-forecast',
   imports: [CommonModule, WeatherIcon],
@@ -16,13 +14,13 @@ import { WeatherBridge } from '../services/weather-bridge';
 })
 export class WeatherForecast {
   @Input() location: LocationResult | null = null;
-  @Output() locationNameChange = new EventEmitter<string>();
 
   forecast14d: DailyForecast[] = [];
   showLongWeekday = true; // 👈 Einfach umstellen (true = lang, false = kurz): Anzeige für Responsive ggf anpassen, falls nicht notwendig: löschen.
   selectedDay: DailyForecast | null = null;
   weatherData: any;
   locationName: string = '';
+  hasWaveData: boolean = true;
 
   private readonly initialLat = 51.316601;
   private readonly initialLon = 6.749072;
@@ -32,7 +30,7 @@ export class WeatherForecast {
   // private readonly initialLon = 4.522095;
   // private readonly initialName = 'Zandvoort';
 
-  constructor(private weatherService: Weather, private weatherBridge: WeatherBridge) { }
+  constructor(private weatherService: Weather) { }
 
   // ngOnInit() {
   //   this.loadWeather14(this.initialLat, this.initialLon);
@@ -60,7 +58,7 @@ export class WeatherForecast {
         this.forecast14d = this.buildDailyForecast(data);
         const analyzedHourly = this.analyzeHourlyData(data);
 
-        // Wir fügen die Mini-Vorschau-Daten jedem Tagesobjekt hinzu:
+        // Mini-Vorschau-Daten jedem Tagesobjekt hinzufügen:
         this.forecast14d = this.forecast14d.map(day => ({
           ...day,
           miniForecast: analyzedHourly[day.date] ?? []
@@ -68,7 +66,7 @@ export class WeatherForecast {
         // this.applyDaySegments(data);
         this.selectedDay = this.forecast14d[0];
         this.loadMarineData14(lat, lon);
-        this.locationNameChange.emit(this.locationName);
+        // this.locationNameChange.emit(this.locationName);
         console.log("Forecast14d:", this.forecast14d);
 
 
@@ -87,11 +85,13 @@ export class WeatherForecast {
             waveHeight: marine.daily.wave_height_max[index] ?? null
           }));
         }
+        this.checkWaveAvailability();
         this.selectedDay = this.forecast14d[0];
         console.log("Wellen:", marine.daily.wave_height_max)
       },
       error: (err) => {
         console.warn("Marine-Daten nicht verfügbar (14 Tage)", err);
+        this.hasWaveData = false;
       }
     });
   }
@@ -117,6 +117,10 @@ export class WeatherForecast {
         daylightDuration: `${daylightHours} h ${daylightMinutes} min`,
       }
     })
+  }
+
+  private checkWaveAvailability() {
+    this.hasWaveData = this.forecast14d.some(day => day.waveHeight !== null);
   }
 
   private getWindDirectionLabel(degrees: number): string {

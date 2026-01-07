@@ -1,13 +1,14 @@
 <div class="weather-bg">
-    <!-- <div class="placeholder">
-        <h2>Diese Ansicht ist gerade im Aufbau und bald verfügbar.</h2>
-        <h2>This view is currently under construction and will be available soon.</h2>
+    <div *ngIf="!showForecast" class="placeholder">
+        <h2>Diese Ansicht ist gerade im Aufbau. Du willst trotzdem wissen, wohin der Wind weht?</h2>
+        <h2>TThis view is currently under construction. Still want to know what's going on?</h2>
+        <button class="placeholder-btn" (click)="hideConstructionInfo()">YES!</button>
         <img src="/img/appLogo5.png" alt="">
-    </div> -->
+    </div>
 
     
 
-    <div class="forecast-14d">
+    <div *ngIf="showForecast" class="forecast-14d">
         <div class="forecast-header">
             <h2>Vorschau für {{ locationName }}</h2>
         </div>

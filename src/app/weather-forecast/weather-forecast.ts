@@ -14,6 +14,7 @@ import { WeatherIcon } from '../weather-icon/weather-icon';
 })
 export class WeatherForecast {
   @Input() location: LocationResult | null = null;
+  @Output() locationNameChange = new EventEmitter<string>();
 
   forecast14d: DailyForecast[] = [];
   showLongWeekday = true; // 👈 Einfach umstellen (true = lang, false = kurz): Anzeige für Responsive ggf anpassen, falls nicht notwendig: löschen.
@@ -36,6 +37,15 @@ export class WeatherForecast {
   //   this.loadWeather14(this.initialLat, this.initialLon);
   //   console.log("HALLO");
   // }
+
+  /** ***This function is used to hide the placeholder in the production version.
+   * It can be deleted as soon as the forecast view is completed.
+   * The same goes for the HTML part.***
+   */
+  showForecast = false;
+  hideConstructionInfo(): void {
+    this.showForecast = true;
+  }
 
   ngOnInit() {
     if (this.location) {
